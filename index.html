@@ -180,6 +180,17 @@ function drawBaseSand(){
 drawBaseSand();
 const sandMat=new THREE.MeshStandardMaterial({map:sandTex,bumpMap:sandBump,bumpScale:1.6,
  roughness:.96,metalness:0});
+// ---------------- bamboo backdrop - quiet verticals in the moss band
+(function(){ const bm=new THREE.MeshStandardMaterial({color:0x46532f,roughness:.85});
+ const bm2=new THREE.MeshStandardMaterial({color:0x39462a,roughness:.9});
+ const clumps=[[-8.6,-SH/2-9.2,3],[5.6,-SH/2-8.2,5],[10.6,-SH/2-6.6,3]];
+ clumps.forEach(function(c,ci){ for(let i=0;i<c[2];i++){
+  const h=4.2+((ci*3+i*2.7)%3.4), r=.14+((ci+i)%3)*.03;
+  const b=new THREE.Mesh(new THREE.CylinderGeometry(r*.85,r,h,7),(ci+i)%2?bm:bm2);
+  b.position.set(c[0]+i*.55-((c[2]-1)*.27),h/2-.1,c[1]-(i%2)*.8);
+  b.rotation.z=((ci+i)%5-2)*.012; b.castShadow=true; scene.add(b);
+  for(let n=1;n<3;n++){ const ring=new THREE.Mesh(new THREE.TorusGeometry(r*1.05,.018,5,10),bm2);
+   ring.rotation.x=Math.PI/2; ring.position.set(b.position.x,h*n/3,b.position.z); scene.add(ring); } } }); })();
 const sand=new THREE.Mesh(new THREE.PlaneGeometry(SW,SH),sandMat);
 sand.rotation.x=-Math.PI/2; sand.receiveShadow=true; scene.add(sand);
 // ---------------- garden frame + ground
