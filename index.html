@@ -190,7 +190,11 @@ const sandMat=new THREE.MeshStandardMaterial({map:sandTex,bumpMap:sandBump,bumpS
   b.position.set(c[0]+i*.55-((c[2]-1)*.27),h/2-.1,c[1]-(i%2)*.8);
   b.rotation.z=((ci+i)%5-2)*.012; b.castShadow=true; scene.add(b);
   for(let n=1;n<3;n++){ const ring=new THREE.Mesh(new THREE.TorusGeometry(r*1.05,.018,5,10),bm2);
-   ring.rotation.x=Math.PI/2; ring.position.set(b.position.x,h*n/3,b.position.z); scene.add(ring); } } }); })();
+   ring.rotation.x=Math.PI/2; ring.position.set(b.position.x,h*n/3,b.position.z); scene.add(ring); } }
+  const mound=new THREE.Mesh(new THREE.SphereGeometry(1.15,14,10),
+   new THREE.MeshStandardMaterial({color:0x3a4426,roughness:1}));
+  mound.scale.set(1,.3,1); mound.position.set(c[0],-.1,c[1]-.3);
+  mound.receiveShadow=true; mound.castShadow=true; scene.add(mound); }); })();
 const sand=new THREE.Mesh(new THREE.PlaneGeometry(SW,SH),sandMat);
 sand.rotation.x=-Math.PI/2; sand.receiveShadow=true; scene.add(sand);
 // ---------------- garden frame + ground
