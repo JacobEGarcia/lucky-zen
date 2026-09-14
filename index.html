@@ -20,7 +20,10 @@ body{font-family:"Space Grotesk",sans-serif;font-weight:300;color:var(--cream);
  background-image:repeating-conic-gradient(rgba(255,255,255,.015) 0 .6deg,transparent .6deg 1.4deg);
  mix-blend-mode:overlay}
 #hdr{position:fixed;top:0;left:0;right:0;z-index:4;pointer-events:none;
- display:flex;justify-content:space-between;padding:20px 24px}
+ display:flex;justify-content:space-between;padding:20px 24px;transition:opacity .5s}
+#hdr.off{opacity:0}
+#hdr>div:first-child{min-width:0}
+.tr{flex:none}
 h1{font-family:"Shippori Mincho",serif;font-weight:700;font-size:clamp(15px,2.2vw,23px);
  letter-spacing:.14em;color:#3a2c16;text-shadow:0 1px 0 rgba(240,230,210,.35)}
 h1 .jp{color:#6b4a1a;margin-right:.5em}
@@ -33,7 +36,7 @@ h1 .jp{color:#6b4a1a;margin-right:.5em}
 /* overlays */
 .ov{position:fixed;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;
  justify-content:center;text-align:center;padding:24px;transition:opacity .5s;
- background:radial-gradient(ellipse at 50% 42%,rgba(23,16,10,.78),rgba(23,16,10,.38) 56%,rgba(23,16,10,0) 80%)}
+ background:radial-gradient(ellipse at 50% 42%,rgba(23,16,10,.88) 26%,rgba(23,16,10,.68) 54%,rgba(23,16,10,.34) 76%,rgba(23,16,10,.1) 100%)}
 .ov.hidden{opacity:0;pointer-events:none}
 .endjp{font-family:"Shippori Mincho",serif;font-weight:700;font-size:clamp(44px,9vw,96px);
  letter-spacing:.12em;color:var(--gold);text-shadow:0 0 42px rgba(212,175,55,.35)}
@@ -67,13 +70,13 @@ button:hover{background:rgba(232,200,106,.1);box-shadow:0 0 22px rgba(212,175,55
 <body>
 <canvas id="c"></canvas>
 <div id="vig"></div><div id="grain"></div>
-<div id="hdr">
+<div id="hdr" class="off">
  <div>
   <h1><span class="jp">福庭</span>LUCKY ZEN</h1>
   <p class="sub">rake the sand - the cat keeps napping</p>
   <p class="mincho-s">一石、一波。</p>
  </div>
- <div class="tr"><b id="suji">筋 0</b><br>the garden remembers</div>
+ <div class="tr"><b id="suji">筋 0</b></div>
 </div>
 <div class="ov" id="menu">
  <div class="endjp" style="font-size:clamp(40px,7.5vw,76px)">福庭</div>
@@ -372,7 +375,7 @@ cv.addEventListener('touchstart',e=>e.preventDefault(),{passive:false});
 // ---------------- ui
 function toast(m){ $('toast').textContent=m; $('toast').style.opacity=1;
  setTimeout(()=>$('toast').style.opacity=0,2400); }
-function startGame(){ state='play'; $('menu').classList.add('hidden'); $('tools').classList.add('on');
+function startGame(){ state='play'; $('menu').classList.add('hidden'); $('hdr').classList.remove('off'); $('tools').classList.add('on');
  $('hint').classList.add('on'); setTimeout(()=>$('hint').classList.remove('on'),4200); sChime(); }
 $('beginbtn').onclick=()=>{ ac(); startGame(); };
 $('resetbtn').onclick=()=>{ if(state!=='play')return; drawBaseSand(); strokes=0;
@@ -480,7 +483,7 @@ if(RAKE){ setTimeout(()=>{ // demo strokes: an arc near the middle + a straight 
    rakeSeg(u0,v0,u1,v1); strokes++; $('suji').textContent='筋 '+strokes;
    if(a0>5.2)clearInterval(iv); },40); },600); }
 if(CARD){ setTimeout(()=>showCard(),3200); }
-if(SHOT){ $('menu').classList.remove('hidden'); state='menu'; }
+if(SHOT){ $('menu').classList.remove('hidden'); $('hdr').classList.add('off'); state='menu'; }
 </script>
 </body>
 </html>
